@@ -28,7 +28,7 @@ bool Window::Init()
     // Add SDL_WINDOW_ALLOW_HIGHDPI flag
     m_window = SDL_CreateWindow(m_title.c_str(),
                                 SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-                                m_width, m_height, 
+                                m_width, m_height,
                                 SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI);
 
     if (!m_window)

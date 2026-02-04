@@ -10,7 +10,7 @@ Texture::Texture(SDL_Renderer *renderer, const std::string &path)
     return;
   }
   m_texture = SDL_CreateTextureFromSurface(renderer, surface);
-  
+
   // Explicitly set scale mode to best (requires SDL 2.0.12+)
   SDL_SetTextureScaleMode(m_texture, SDL_ScaleModeBest);
 
