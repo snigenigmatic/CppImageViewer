@@ -24,10 +24,10 @@ add_executable(${PROJECT_NAME} ${SOURCES})
 target_include_directories(${PROJECT_NAME} PRIVATE src)
 
 # Link Libraries
-target_link_libraries(${PROJECT_NAME} PRIVATE 
-    ${SDL2_LIBRARIES} 
-    SDL2::SDL2main 
-    SDL2_image::SDL2_image
+target_link_libraries(${PROJECT_NAME} PRIVATE
+    SDL2::SDL2main
+    $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>
+    $<IF:$<TARGET_EXISTS:SDL2_image::SDL2_image>,SDL2_image::SDL2_image,SDL2_image::SDL2_image-static>
 )
 
 # Link Windows libraries for file dialog
