@@ -22,7 +22,7 @@ jobs:
           - name: Install dependencies
             run: |
               sudo apt-get update
-              sudo apt-get install -y ninja-build clang cmake autoconf autoconf-archive automake libtool
+              sudo apt-get install -y ninja-build clang cmake autoconf autoconf-archive automake libtool libltdl-dev
 
           # - name: Install vcpkg
           #   run: |
