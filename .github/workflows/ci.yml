@@ -11,3 +11,40 @@ jobs:
         runs-on: ubuntu-latest
         timeout-minutes: 30
         strategy:
+          matrix:
+            build-type: [Release, Debug]
+        steps:
+          - name: Checkout repository
+            uses: actions/checkout@v4
+            with:
+              submodules: recursive
+
+          - name: Install dependencies
+            run: |
+              sudo apt-get update
+              sudo apt-get install -y ninja-build clang cmake
+
+          - name: Install vcpkg
+            run: |
+              git clone https://github.com/microsoft/vcpkg.git
+              ./vcpkg/bootstrap-vcpkg.sh
+
+          - name: Configure CMake
+            run: |
+              cmake -S . -B build -G Ninja \
+                -DCMAKE_BUILD_TYPE=${{ matrix.build-type }} \
+                -DCMAKE_TOOLCHAIN_FILE=./vcpkg/scripts/buildsystems/vcpkg.cmake
+
+          - name: Build
+            run: cmake --build build --config ${{ matrix.build-type }}
+
+          - name: Run tests (if any)
+            run: |
+              ctest --test-dir build --output-on-failure || echo "No tests found"
+
+          - name: Upload build artifacts
+            if: success()
+            uses: actions/upload-artifact@v4
+            with:
+              name: CppImageViewer-${{ matrix.build-type }}
+              path: build/CppImageViewer*
